@@ -7,15 +7,19 @@ GitHub Pages aloja la interfaz. Supabase aloja las bases en un bucket privado y 
 ## Operación
 
 1. El auditor ingresa con su código personal. El botón Inicia administrador abre usuario y contraseña.
-2. En Administración selecciona el mes y carga universo y forecast. El export se sincroniza desde Databricks a las 06:00, 12:00 y 17:00, America/Bogota, en Reporting Cluster.
+2. En Administración selecciona el mes y carga el universo y las metas individuales de auditores. El export automático consulta solo el mes actual a las 06:00, 12:00 y 17:00, America/Bogota, en Reporting Cluster. Los meses anteriores se conservan en Supabase.
 3. Valida y revisa la muestra de filas antes de guardar.
 4. Confirma responsables de rutas ambiguas desde la página.
 5. En Auditores y códigos de acceso puedes añadir usuarios y copiar el código de cada auditor.
-6. Actualizar ahora inicia una nueva ejecución en Databricks y la página muestra cuándo termina.
+6. Actualizar ahora del export vuelve a consultar todo el histórico de 2026 y 2027. El forecast de Databricks se consulta por auditor y tiene su propio botón.
 
 ## Databricks
 
-databricks/sync_lindley.py ejecuta la consulta Lindley de 2026 y 2027, valida todos los registros y publica cada ola por separado. El job 577854098883515 corre a las 06:00, 12:00 y 17:00 de Bogotá y se puede ejecutar desde Actualizar ahora. Usa Reporting Cluster (1115-192254-jqnbpmi). La publicación del export usa la identidad temporal nativa de la ejecución, verificada por el servidor con la API de Databricks. No se guardan contraseñas ni claves privadas en los notebooks. La identidad autorizada es masanchez@dichter-neira.com; cambiar el propietario exige actualizar esa autorización en el servidor. El inicio manual usa una credencial privada de integración leída exclusivamente por el servidor desde el bucket protegido, con vigencia hasta octubre de 2027. Nunca se envía al navegador ni se incluye en el código. Si el cluster está detenido, el arranque puede añadir tiempo a la actualización.
+databricks/sync_lindley.py valida toda la consulta antes de publicar cada ola por separado. El job 448396700809372 consulta únicamente la Ola del mes actual a las 06:00, 12:00 y 17:00 de Bogotá. El job manual 577854098883515 consulta todo el histórico de 2026 y 2027, sin un horario automático. El mes actual se determina con America/Bogota y se filtra en el SQL por Ola, no por fecha de la visita. Una respuesta vacía o inválida conserva los datos guardados.
+
+El job de forecast 873798021992995 se actualiza los lunes a las 06:00, America/Bogota. Su consulta usa storeview.forecast_consalidado_reporting, Fecha > 2026-01-01 y Estudio like '%Lindley - Auditor%'. CDA contiene el usuario del auditor y se guarda como forecast, cruzado por usuario y fecha. Los botones manuales registran solicitudes independientes y consultan el estado real del job.
+
+Los jobs usan Reporting Cluster (1115-192254-jqnbpmi). La publicación usa la identidad temporal nativa de la ejecución, verificada por el servidor con la API de Databricks. No se guardan contraseñas ni claves privadas en los notebooks. La identidad autorizada es masanchez@dichter-neira.com; cambiar el propietario exige actualizar esa autorización en el servidor. El inicio manual usa una credencial privada de integración leída exclusivamente por el servidor desde el bucket protegido, con vigencia hasta octubre de 2027. Nunca se envía al navegador ni se incluye en el código. Si el cluster está detenido, el arranque puede añadir tiempo a la actualización.
 
 Aplica supabase/databricks-sync.sql antes de desplegar supabase/index.ts. Las solicitudes solo se crean con una sesión administrativa. Los auditores no pueden iniciar sincronizaciones y las tablas de solicitudes no tienen acceso directo desde el navegador. Los archivos export se pueden subir manualmente como respaldo. Universo, forecast y responsables de ruta se conservan.
 
