@@ -18,3 +18,7 @@ El universo cruza CODIGO con ID PDV. Programa de Valor define Titanes y SELECCI�
 index.html contiene la interfaz compilada; xlsx.full.min.js es el lector local de Excel. fuente-lindley.zip contiene el proyecto editable, esquema SQL y servidor Supabase (supabase/index.ts). Instala con npm ci y compila con npm run build. Configura VITE_SUPABASE_ANON_KEY con una clave pública de Supabase. Nunca incluyas claves de servidor ni bases en GitHub.
 
 Las contraseñas se entregan por separado y no forman parte del repositorio.
+
+
+## Publicación
+GitHub Pages publica automáticamente los cambios de main desde la raíz del repositorio.
