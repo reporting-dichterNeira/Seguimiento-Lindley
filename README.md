@@ -23,3 +23,11 @@ GitHub contiene solo interfaz y fuente. Los datos, perfiles y homologaciones est
 fuente-lindley.zip contiene el proyecto editable. Instala npm ci y compila npm run build. Configura las claves públicas VITE_SUPABASE_ANON_KEY y VITE_SUPABASE_LOGIN_JWT. Nunca publiques claves de servidor, bases ni códigos de acceso. Databricks verifica la identidad temporal de la ejecución; el inicio manual utiliza una credencial leída únicamente en el servidor desde integrations/databricks.json.
 
 Un usuario puede conservar varios MT. Un MT compartido admite varias filas de homologación y divide cuota, forecast y metas Titanes por partes iguales (50 % para dos personas), manteniendo el avance real por usuario del export. Al ingresar un MT compartido se selecciona el nombre del auditor. Las metas impares pueden expresarse con 0,5 para conservar el total exacto.
+
+## Auditores por mes
+
+En Administración, «Equivalencias y auditores del mes» permite añadir un auditor con Nombre, Usuario del export y uno o varios MT separados por comas. Las cuentas existentes se conservan; las nuevas se habilitan automáticamente. No es necesario volver a subir el Excel y pueden añadirse MT antes de actualizar el universo.
+
+La casilla «Activo en el mes» controla la participación del auditor en ese periodo. El filtro muestra Todos, Activos, Inactivos y Retirados. «Eliminar del mes» requiere confirmar el retiro y conserva un registro recuperable; «Restaurar al mes» recupera sus equivalencias. Ninguna acción borra auditorías ni modifica otros meses. El estado se guarda en la versión de homologación del mes y queda en el historial de cargas. Subir otro Excel reemplaza estas equivalencias.
+
+Solo los auditores activos participan en el reparto de las metas del MT. Si no queda ninguno activo, el MT queda sin homologar y su cuota se conserva en el total del estudio. Las aprobadas históricas siguen atribuidas al usuario del export. Un auditor inactivo no puede usar ese MT para ingresar ni consultar el mes con una sesión previa. La lista manual comprueba la versión leída y pide actualizar si cambió antes de guardar.
