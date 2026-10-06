@@ -8,7 +8,7 @@ Dos fuentes operativas: export Databricks y Excel de universo con forecast integ
 
 El forecast cuenta puntos titulares (SELECCION=T) por MT y DIA. Programa de Valor identifica Titanes. La primera fecha con auditorías de la ola es día de campo 1; las siguientes fechas distintas son días 2, 3… para toda la ola, incluso con saltos entre fechas. Todos los estados identifican fechas; solo Aprobada suma al avance. El corte limita producción y metas a los días observados. Los días futuros mantienen el forecast sin inventar fechas calendario.
 
-Carga un Excel de homologación con MT, Usuario y Nombre opcional. Usuario debe coincidir con nombre_usuario del export. Se rechazan MT o usuarios duplicados. Las equivalencias se guardan por mes; el acceso MT usa la homologación más reciente. El servidor habilita las cuentas faltantes. Sin equivalencia, el MT queda pendiente. Cada auditor ve sus puntos asignados y sus visitas; el administrador ve el estudio completo.
+Carga un Excel de homologación con MT, Usuario y Nombre opcional. Usuario debe coincidir con nombre_usuario del export. Se rechaza repetir la misma pareja MT y Usuario. Se permiten MT compartidos y usuarios con varios MT. Las equivalencias se guardan por mes; el acceso MT usa la homologación más reciente. El servidor habilita las cuentas faltantes. Sin equivalencia, el MT queda pendiente. Cada auditor ve sus puntos asignados y sus visitas; el administrador ve el estudio completo.
 
 ## Databricks
 
@@ -21,3 +21,5 @@ El job de forecast 873798021992995 queda PAUSADO y el servidor rechaza sus sincr
 GitHub contiene solo interfaz y fuente. Los datos, perfiles y homologaciones están en Supabase con autorización del servidor y bucket lindley-private protegido. Las tablas no tienen acceso directo desde el cliente. Aplica supabase/mt-plan.sql y despliega supabase/index.ts. El acceso MT conserva el límite de intentos; el servidor valida el rol y filtra por usuario del export. Las credenciales administrativas permanecen sin cambios.
 
 fuente-lindley.zip contiene el proyecto editable. Instala npm ci y compila npm run build. Configura las claves públicas VITE_SUPABASE_ANON_KEY y VITE_SUPABASE_LOGIN_JWT. Nunca publiques claves de servidor, bases ni códigos de acceso. Databricks verifica la identidad temporal de la ejecución; el inicio manual utiliza una credencial leída únicamente en el servidor desde integrations/databricks.json.
+
+Un usuario puede conservar varios MT. Un MT compartido admite varias filas de homologación y divide cuota, forecast y metas Titanes por partes iguales (50 % para dos personas), manteniendo el avance real por usuario del export. Al ingresar un MT compartido se selecciona el nombre del auditor. Las metas impares pueden expresarse con 0,5 para conservar el total exacto.
