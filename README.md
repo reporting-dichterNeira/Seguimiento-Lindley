@@ -4,7 +4,7 @@ Portal: https://reporting-dichterneira.github.io/Seguimiento-Lindley/
 
 ## Operación con MT
 
-Dos fuentes operativas: export Databricks y Excel de universo con forecast integrado. En Administración selecciona el mes y carga el universo; la hoja BD se detecta automáticamente. Requiere CODIGO, CLIENTE, RUT.COM, Programa de Valor, SELECCION, MT y DIA. CODIGO cruza con ID_de_PDV. MT asigna los puntos, incluidas las visitas pendientes; en el plan integrado no se infieren responsables por ruta.
+Dos fuentes operativas: export Databricks y Excel de universo con forecast integrado. En Administración selecciona el mes y carga el universo; se detecta la hoja por sus columnas, con preferencia por BD y encabezados dentro de las primeras 20 filas. El orden de las columnas no afecta la carga. Se reconocen Código / CODIGO, USUARIOS / MT, T/S / SELECCIÓN, TIPOLOGIA / Programa de Valor, Día de campo / DIA, RUTAS / RUT.COM y CDA2 / DES LOC_COM. Las columnas adicionales se ignoran. MT es obligatorio en todos los puntos; día de campo es obligatorio solo para titulares y opcional para suplentes. CODIGO cruza con ID_de_PDV. MT asigna los puntos, incluidas las visitas pendientes; en el plan integrado no se infieren responsables por ruta.
 
 El forecast cuenta puntos titulares (SELECCION=T) por MT y DIA. Programa de Valor identifica Titanes. La primera fecha con auditorías de la ola es día de campo 1; las siguientes fechas distintas son días 2, 3… para toda la ola, incluso con saltos entre fechas. Todos los estados identifican fechas; solo Aprobada suma al avance. El corte limita producción y metas a los días observados. Los días futuros mantienen el forecast sin inventar fechas calendario.
 
@@ -31,3 +31,7 @@ En Administración, «Equivalencias y auditores del mes» permite añadir un aud
 La casilla «Activo en el mes» controla la participación del auditor en ese periodo. El filtro muestra Todos, Activos, Inactivos y Retirados. «Eliminar del mes» requiere confirmar el retiro y conserva un registro recuperable; «Restaurar al mes» recupera sus equivalencias. Ninguna acción borra auditorías ni modifica otros meses. El estado se guarda en la versión de homologación del mes y queda en el historial de cargas. Subir otro Excel reemplaza estas equivalencias.
 
 Solo los auditores activos participan en el reparto de las metas del MT. Si no queda ninguno activo, el MT queda sin homologar y su cuota se conserva en el total del estudio. Las aprobadas históricas siguen atribuidas al usuario del export. Un auditor inactivo no puede usar ese MT para ingresar ni consultar el mes con una sesión previa. La lista manual comprueba la versión leída y pide actualizar si cambió antes de guardar.
+
+## Universo completo
+
+La cuota y el forecast cuentan solo titulares programados. Todos los suplentes están disponibles en Puntos de venta, incluso sin visita o sin día previsto. El filtro permite ver titulares o suplentes. SUPLENTES conserva S1, S2 y otros niveles cuando T/S indica S. Las aprobadas de suplentes suman a producción sin aumentar las metas. Los estados históricos dentro del universo se ignoran: el estado actual siempre procede del export de Databricks. La pantalla Estados del export permite conciliar auditorías y puntos únicos; Última actualización corresponde a la última carga exitosa del export del mes, automática o manual.
