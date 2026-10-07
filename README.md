@@ -39,3 +39,5 @@ La cuota y el forecast cuentan solo titulares programados. Todos los suplentes e
 ## Visual de usuarios y estados
 
 Las vistas de gestión muestran el usuario del export; cuando no hay equivalencia, muestran el MT. En Auditores y Administración se puede buscar por usuario o MT y filtrar MT compartidos o usuarios con varios MT. Las etiquetas muestran los códigos, y el detalle de un MT compartido permite consultar sus otros usuarios activos. Los filtros son de consulta y conservan las asignaciones. Estados del export se representa como barras con conteos, porcentaje y total de auditorías, para el mes y corte seleccionados.
+
+En cada fila de Administración, «Editar MT» permite reemplazar todos los códigos de un usuario para el mes seleccionado. Se conservan el usuario, nombre, estado activo/retirado y otros meses. Se admiten varios MT y MT compartidos; el avance continúa por usuario del export. Guardar comprueba la versión de la lista y registra una nueva versión privada de homologación.
