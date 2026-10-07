@@ -22,7 +22,7 @@ GitHub contiene solo interfaz y fuente. Los datos, perfiles y homologaciones est
 
 fuente-lindley.zip contiene el proyecto editable. Instala npm ci y compila npm run build. Configura las claves públicas VITE_SUPABASE_ANON_KEY y VITE_SUPABASE_LOGIN_JWT. Nunca publiques claves de servidor, bases ni códigos de acceso. Databricks verifica la identidad temporal de la ejecución; el inicio manual utiliza una credencial leída únicamente en el servidor desde integrations/databricks.json.
 
-Un usuario puede conservar varios MT. Un MT compartido admite varias filas de homologación y divide cuota, forecast y metas Titanes por partes iguales (50 % para dos personas), manteniendo el avance real por usuario del export. Al ingresar un MT compartido se selecciona el nombre del auditor. Las metas impares pueden expresarse con 0,5 para conservar el total exacto.
+Un usuario puede conservar varios MT. Un MT compartido admite varias filas de homologación y divide cuota, forecast y metas Titanes por partes iguales (50 % para dos personas), manteniendo el avance real por usuario del export. Al ingresar un MT compartido se selecciona el usuario del export. Las metas impares pueden expresarse con 0,5 para conservar el total exacto.
 
 ## Auditores por mes
 
@@ -35,3 +35,7 @@ Solo los auditores activos participan en el reparto de las metas del MT. Si no q
 ## Universo completo
 
 La cuota y el forecast cuentan solo titulares programados. Todos los suplentes están disponibles en Puntos de venta, incluso sin visita o sin día previsto. El filtro permite ver titulares o suplentes. SUPLENTES conserva S1, S2 y otros niveles cuando T/S indica S. Las aprobadas de suplentes suman a producción sin aumentar las metas. Los estados históricos dentro del universo se ignoran: el estado actual siempre procede del export de Databricks. La pantalla Estados del export permite conciliar auditorías y puntos únicos; Última actualización corresponde a la última carga exitosa del export del mes, automática o manual.
+
+## Visual de usuarios y estados
+
+Las vistas de gestión muestran el usuario del export; cuando no hay equivalencia, muestran el MT. En Auditores y Administración se puede buscar por usuario o MT y filtrar MT compartidos o usuarios con varios MT. Las etiquetas muestran los códigos, y el detalle de un MT compartido permite consultar sus otros usuarios activos. Los filtros son de consulta y conservan las asignaciones. Estados del export se representa como barras con conteos, porcentaje y total de auditorías, para el mes y corte seleccionados.
