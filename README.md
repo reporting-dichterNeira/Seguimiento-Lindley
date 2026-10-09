@@ -44,9 +44,9 @@ En cada fila de Administración, «Editar MT» permite reemplazar todos los cód
 
 ## Indicadores de efectivas
 
-Efectivas cuenta puntos únicos del universo por ola y corte con Aprobada, En Proceso, Requiere Aprobación, Exenta por Validación Smart, Alerta, Cancelación Automática, Incidencia, Exenta o Cancelada. La última auditoría efectiva del punto determina el usuario y fecha de producción; varias auditorías no multiplican el avance. SubStatus identifica Exenta por Validación Smart y Cancelación Automática antes del estado principal. Otros subestados (Reconocimiento Manual, Mal Ejecutada, Incidente en PDV, etc.) conservan la categoría Estado. Los estados desconocidos y puntos sin visita no son efectivos.
+Efectivas cuenta puntos únicos del universo por ola y corte con Aprobada, En Proceso, Requiere Aprobación, Exenta por Validación Smart, Alerta o Cancelación Automática. Incidencia, Exenta y Cancelada se excluyen de efectivas en todos los indicadores, filtros y exportaciones. La última auditoría efectiva del punto determina el usuario y fecha de producción; varias auditorías no multiplican el avance. SubStatus identifica Exenta por Validación Smart y Cancelación Automática antes del estado principal. Otros subestados (Reconocimiento Manual, Mal Ejecutada, Incidente en PDV, etc.) conservan la categoría Estado. Los estados desconocidos y puntos sin visita no son efectivos.
 
-Cuota, forecast y reparto de MT se conservan. Avance = efectivas / cuota; cumplimiento = efectivas / forecast; GAP = forecast − efectivas (positivo indica faltante); pendientes = máximo(0, cuota − efectivas). Titanes aplica las mismas reglas. Incidencias, canceladas y en revisión son desgloses incluidos en efectivas y no deben sumarse de nuevo. La gráfica cuenta auditorías; los indicadores cuentan puntos. Databricks trae Estado y SubStatus en las sincronizaciones del mes actual y del histórico.
+Cuota, forecast y reparto de MT se conservan. Avance = efectivas / cuota; cumplimiento = efectivas / forecast; GAP = forecast − efectivas (positivo indica faltante); pendientes = máximo(0, cuota − efectivas). Titanes aplica las mismas reglas. Incidencia, Exenta y Cancelada se muestran por separado y no suman a efectivas. Los estados en revisión sí están incluidos y no deben sumarse de nuevo. La gráfica cuenta auditorías; los indicadores cuentan puntos. Databricks trae Estado y SubStatus en las sincronizaciones del mes actual y del histórico.
 
 ## Rutas, visitas CT y exportación
 
@@ -55,3 +55,12 @@ En Auditores, «Ver rutas» despliega las metas y efectivas de cada ruta/CDA del
 «Cerrado temporal» reúne puntos del universo que tuvieron Incidencia / Cerrado temporal en la ola y hasta el corte. Cuenta todas sus auditorías con ID_de_audito distinto, incluso con otro estado o varias en la misma fecha. Verde OK indica dos o más visitas; rojo Falta visita indica una. Hay filtros por seguimiento y búsqueda. Para auditores se muestran puntos de su gestión y el conteo agregado del punto, sin identidades ni registros de otros usuarios.
 
 Todas las tablas tienen «Exportar Excel». Puntos de venta exporta todos los resultados filtrados con autorización del servidor, más allá de la página visible. Programa, selección y estados se combinan con AND; varios estados se incluyen con OR. Por ejemplo, Titanes + titulares + Sin visitar. Los filtros de consulta no cambian indicadores ni fuentes.
+
+## Publicación en Vercel
+
+Portal de producción: https://seguimiento-lindley.vercel.app
+Equipo: reporting-dichterneira. Proyecto: seguimiento-lindley.
+
+La versión 6f567fe se publicó con carga directa de index.html y xlsx.full.min.js, ambos idénticos al repositorio. Los cambios posteriores de interfaz se despliegan manualmente desde Vercel; este proyecto aún no tiene integración Git. Para preparar una nueva versión, compila, ejecuta package-pages.py y carga esos dos archivos juntos. Las actualizaciones de bases continúan en Supabase/Databricks y no requieren volver a publicar la interfaz.
+
+La función lindley-api permite el origen exacto https://seguimiento-lindley.vercel.app, además del portal GitHub y los servidores locales existentes. La autorización por sesión, rol y auditor se conserva. Los dominios de preview no tienen acceso automático al backend. Se verificaron ingreso de auditor, acceso administrativo y exportación Excel desde el dominio de producción.
