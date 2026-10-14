@@ -73,3 +73,10 @@ Administración → Calendario de días de campo permite corregir cada mes. En a
 Día de campo fuerza la inclusión; Sumar al anterior fuerza la exclusión. Guardar recalcula la numeración, el forecast y las productividades diaria y semanal para todos los usuarios. Las fechas originales del export, las auditorías y el corte se conservan: nunca se anticipan visitas posteriores al corte. Los ajustes se guardan por mes como dataset privado calendar y sobreviven a la sincronización del export. Restablecer automático requiere Guardar. La activación utiliza una comparación de versión bajo bloqueo para evitar sobrescrituras concurrentes.
 
 Para instalaciones existentes ejecutar supabase/migrations/20261013124844_field_calendar.sql y luego desplegar lindley-api. Para una instalación nueva ejecutar schema.sql, las demás migraciones necesarias y esta migración.
+
+
+## Avance vs forecast lineal
+
+La tarjeta administrativa compara efectivas acumuladas con la suma de las metas lineales hasta la fecha de corte elegida. El plan se guarda por mes como dataset privado linear-forecast; no se publica en el frontend ni se reparte automáticamente entre auditores. Cada meta conserva su fecha calendario, independientemente de las correcciones del calendario de campo. Días vacíos aportan cero. No se normaliza el total ni se limita el porcentaje a 100 %. Antes de la primera meta se muestra — para evitar división por cero; en meses sin plan se indica que no hay forecast lineal cargado. El forecast integrado del universo y sus GAP conservan su cálculo.
+
+Ejecutar supabase/migrations/20261014125016_linear_forecast.sql después de las migraciones anteriores y desplegar supabase/index.ts. El servidor entrega el indicador únicamente a administradores; las metas usan el bucket privado y la activación versionada ya existentes.
