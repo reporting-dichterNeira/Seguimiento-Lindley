@@ -85,3 +85,14 @@ Ejecutar supabase/migrations/20261014125016_linear_forecast.sql después de las 
 ## Semáforo de GAP en tarjetas
 
 La tarjeta lineal muestra «efectivas / meta lineal» y GAP = meta lineal − efectivas. Las tarjetas con GAP aplican un único criterio relativo a su propia meta: verde cuando GAP ≤ 0; amarillo cuando 0 < GAP ≤ 10 % de la meta; rojo cuando GAP > 10 %. Sin meta disponible se muestra — sin asignar un semáforo de cumplimiento. Los valores conservan su cálculo al corte. El criterio se aplica al resumen de forecast, al forecast lineal administrativo y a las tarjetas generales y de Titanes, tanto de administrador como de auditor.
+
+
+## Forecast de campo por ola
+
+Solo el administrador ve el forecast de campo. Se guarda por periodo como dataset privado field-forecast con CDA, fecha y meta diaria. Se suman filas repetidas por CDA y fecha; se excluyen los totales para evitar doble conteo y se conservan los decimales. La meta al corte suma fechas calendario hasta el corte, incluyendo jornadas con cero o visitas futuras aún no reportadas. Las efectivas conservan los seis estados vigentes y el corte real del export. El forecast de planeación del universo conserva su cálculo.
+
+Las tarjetas de lineal y campo aparecen debajo de las cuatro tarjetas originales. La tarjeta de campo muestra porcentaje, efectivas, meta al corte y GAP = meta de campo − efectivas con el semáforo común. La tabla por CDA añade al final Meta al corte, Efectivas y GAP de campo, también incluidos en su exportación Excel. El total concilia con los CDA. Sin plan de campo para una ola no se muestran esta tarjeta ni sus columnas. Los auditores no reciben estas metas ni cambian sus visuales.
+
+Para octubre de 2026 se usa la pestaña Hoja2 del archivo suministrado, con metas por CDA para 22 fechas. Los nombres se normalizan por mayúsculas, acentos y puntuación; el código AA relaciona Rutas del Sur Tacna con AA RUTAS DEL SUR S.A del portal. La base preparada conserva el nombre de origen. El archivo Excel original permanece intacto y sus hojas auxiliares no se importan.
+
+Aplicar supabase/migrations/20261014133759_field_forecast.sql después de las migraciones anteriores y desplegar supabase/index.ts. Se conservan autorización, RLS y el bucket privado existentes.
