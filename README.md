@@ -80,3 +80,8 @@ Para instalaciones existentes ejecutar supabase/migrations/20261013124844_field_
 La tarjeta administrativa compara efectivas acumuladas con la suma de las metas lineales hasta la fecha de corte elegida. El plan se guarda por mes como dataset privado linear-forecast; no se publica en el frontend ni se reparte automáticamente entre auditores. Cada meta conserva su fecha calendario, independientemente de las correcciones del calendario de campo. Días vacíos aportan cero. No se normaliza el total ni se limita el porcentaje a 100 %. Antes de la primera meta se muestra — para evitar división por cero; en meses sin plan se indica que no hay forecast lineal cargado. El forecast integrado del universo y sus GAP conservan su cálculo.
 
 Ejecutar supabase/migrations/20261014125016_linear_forecast.sql después de las migraciones anteriores y desplegar supabase/index.ts. El servidor entrega el indicador únicamente a administradores; las metas usan el bucket privado y la activación versionada ya existentes.
+
+
+## Semáforo de GAP en tarjetas
+
+La tarjeta lineal muestra «efectivas / meta lineal» y GAP = meta lineal − efectivas. Las tarjetas con GAP aplican un único criterio relativo a su propia meta: verde cuando GAP ≤ 0; amarillo cuando 0 < GAP ≤ 10 % de la meta; rojo cuando GAP > 10 %. Sin meta disponible se muestra — sin asignar un semáforo de cumplimiento. Los valores conservan su cálculo al corte. El criterio se aplica al resumen de forecast, al forecast lineal administrativo y a las tarjetas generales y de Titanes, tanto de administrador como de auditor.
