@@ -99,4 +99,4 @@ Aplicar supabase/migrations/20261014133759_field_forecast.sql después de las mi
 
 ## Validación por CDA
 
-La pestaña Validación por CDA presenta el total de auditorías, sus estados y el porcentaje Requiere Aprobación / total; se puede exportar a Excel. La columna Navegador permanece en el seguimiento principal. Los GAP mostrados en tablas, tarjetas y exportación usan efectivas menos forecast.
+El botón «Ver estados de validación» en Seguimiento por CDA presenta el total de auditorías, sus estados y el porcentaje Requiere Aprobación / total; se puede exportar a Excel. La columna Navegador aparece inmediatamente después de CDA en el cuadro general. Los GAP mostrados en tablas, tarjetas y exportación usan efectivas menos forecast.
