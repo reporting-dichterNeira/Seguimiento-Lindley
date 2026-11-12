@@ -46,7 +46,7 @@ En cada fila de Administración, «Editar MT» permite reemplazar todos los cód
 
 Efectivas cuenta puntos únicos del universo por ola y corte con Aprobada, En Proceso, Requiere Aprobación, Exenta por Validación Smart, Alerta o Cancelación Automática. Incidencia, Exenta y Cancelada se excluyen de efectivas en todos los indicadores, filtros y exportaciones. La última auditoría efectiva del punto determina el usuario y fecha de producción; varias auditorías no multiplican el avance. SubStatus identifica Exenta por Validación Smart y Cancelación Automática antes del estado principal. Otros subestados (Reconocimiento Manual, Mal Ejecutada, Incidente en PDV, etc.) conservan la categoría Estado. Los estados desconocidos y puntos sin visita no son efectivos.
 
-Cuota, forecast y reparto de MT se conservan. Avance = efectivas / cuota; cumplimiento = efectivas / forecast; GAP = forecast − efectivas (positivo indica faltante); pendientes = máximo(0, cuota − efectivas). Titanes aplica las mismas reglas. Incidencia, Exenta y Cancelada se muestran por separado y no suman a efectivas. Los estados en revisión sí están incluidos y no deben sumarse de nuevo. La gráfica cuenta auditorías; los indicadores cuentan puntos. Databricks trae Estado y SubStatus en las sincronizaciones del mes actual y del histórico.
+Cuota, forecast y reparto de MT se conservan. Avance = efectivas / cuota; cumplimiento = efectivas / forecast; GAP mostrado = efectivas − forecast (negativo indica faltante); pendientes = máximo(0, cuota − efectivas). Titanes aplica las mismas reglas. Incidencia, Exenta y Cancelada se muestran por separado y no suman a efectivas. Los estados en revisión sí están incluidos y no deben sumarse de nuevo. La gráfica cuenta auditorías; los indicadores cuentan puntos. Databricks trae Estado y SubStatus en las sincronizaciones del mes actual y del histórico.
 
 ## Rutas, visitas CT y exportación
 
@@ -84,15 +84,19 @@ Ejecutar supabase/migrations/20261014125016_linear_forecast.sql después de las 
 
 ## Semáforo de GAP en tarjetas
 
-La tarjeta lineal muestra «efectivas / meta lineal» y GAP = meta lineal − efectivas. Las tarjetas con GAP aplican un único criterio relativo a su propia meta: verde cuando GAP ≤ 0; amarillo cuando 0 < GAP ≤ 10 % de la meta; rojo cuando GAP > 10 %. Sin meta disponible se muestra — sin asignar un semáforo de cumplimiento. Los valores conservan su cálculo al corte. El criterio se aplica al resumen de forecast, al forecast lineal administrativo y a las tarjetas generales y de Titanes, tanto de administrador como de auditor.
+La tarjeta lineal muestra «efectivas / meta lineal» y GAP = efectivas − meta lineal. Los GAP se muestran en rojo cuando son negativos y en verde cuando son cero o positivos. Sin meta disponible se muestra — sin asignar un semáforo de cumplimiento. Los valores conservan su cálculo al corte. El criterio se aplica al resumen de forecast, al forecast lineal administrativo y a las tarjetas generales y de Titanes, tanto de administrador como de auditor.
 
 
 ## Forecast de campo por ola
 
 Solo el administrador ve el forecast de campo. Se guarda por periodo como dataset privado field-forecast con CDA, fecha y meta diaria. Se suman filas repetidas por CDA y fecha; se excluyen los totales para evitar doble conteo y se conservan los decimales. La meta al corte suma fechas calendario hasta el corte, incluyendo jornadas con cero o visitas futuras aún no reportadas. Las efectivas conservan los seis estados vigentes y el corte real del export. El forecast de planeación del universo conserva su cálculo.
 
-Las tarjetas de lineal y campo aparecen debajo de las cuatro tarjetas originales. La tarjeta de campo muestra porcentaje, efectivas, meta al corte y GAP = meta de campo − efectivas con el semáforo común. La tabla por CDA añade al final Meta al corte, Efectivas y GAP de campo, también incluidos en su exportación Excel. El total concilia con los CDA. Sin plan de campo para una ola no se muestran esta tarjeta ni sus columnas. Los auditores no reciben estas metas ni cambian sus visuales.
+Las tarjetas de lineal y campo aparecen debajo de las cuatro tarjetas originales. La tarjeta de campo muestra porcentaje, efectivas, meta al corte y GAP = efectivas − meta de campo con el semáforo común. La tabla por CDA añade al final Meta al corte, Efectivas y GAP de campo, también incluidos en su exportación Excel. El total concilia con los CDA. Sin plan de campo para una ola no se muestran esta tarjeta ni sus columnas. Los auditores no reciben estas metas ni cambian sus visuales.
 
 Para octubre de 2026 se usa la pestaña Hoja2 del archivo suministrado, con metas por CDA para 22 fechas. Los nombres se normalizan por mayúsculas, acentos y puntuación; el código AA relaciona Rutas del Sur Tacna con AA RUTAS DEL SUR S.A del portal. La base preparada conserva el nombre de origen. El archivo Excel original permanece intacto y sus hojas auxiliares no se importan.
 
 Aplicar supabase/migrations/20261014133759_field_forecast.sql después de las migraciones anteriores y desplegar supabase/index.ts. Se conservan autorización, RLS y el bucket privado existentes.
+
+## Validación por CDA
+
+La pestaña Validación por CDA presenta el total de auditorías, sus estados y el porcentaje Requiere Aprobación / total; se puede exportar a Excel. La columna Navegador permanece en el seguimiento principal. Los GAP mostrados en tablas, tarjetas y exportación usan efectivas menos forecast.
